@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navigation from "./Navigation";
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {  
   return (
     <>
       <Navigation></Navigation>

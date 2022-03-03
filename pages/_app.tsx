@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { AppContextProvider } from "../context/AppContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
+
   return (
     <AppContextProvider>
       <Layout>
