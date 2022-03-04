@@ -8,10 +8,12 @@ function CreateQuote() {
   const [quote, setQuote] = useState({
     value: "Say Something",
     error: false,
+    touched: false
   });
   const [name, setName] = useState({
     value: "Satoshi Nakamoto",
     error: false,
+    touched: false
   });
 
   const ref = useRef<HTMLDivElement>(null);
@@ -20,7 +22,8 @@ function CreateQuote() {
     setQuote((state) => ({
       ...state,
       value: e.target.value,
-      error: !e.target.value.length
+      error: !e.target.value.length,
+      touched: true
     }));
   };
 
@@ -28,29 +31,28 @@ function CreateQuote() {
     setName((state) => ({
       ...state,
       value: e.target.value,
-      error: !e.target.value.length
+      error: !e.target.value.length,
+      touched: true
     }));
   };
 
   const handleSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       if (ref.current === null) {
         return;
       }
-
+      if (!quote.touched) return ;
       if (!!quote.error || !!name.error) return ;
 
-      domtoimage
-        .toPng(ref.current, { width: 800, height: 600 })
-        .then(function (dataUrl) {
-          var img = new Image();
-          img.src = dataUrl;
-          document.body.appendChild(img);
-        })
-        .catch(function (error) {
-          console.error("oops, something went wrong!", error);
-        });
+      try {
+        const dataUrl = await domtoimage.toPng(ref.current, { width: 800, height: 600 });
+        const img = new Image();
+        img.src = dataUrl;
+        document.body.appendChild(img);
+      } catch (error) {
+        console.error("oops, something went wrong!", error);
+      }
     },
     [ref, quote, name]
   );
