@@ -35,11 +35,11 @@ const Navigation = () => {
         <h1 className="text-3xl">Quotation</h1>
       </div>
       <div className="flex justify-between items-center w-[400px]">
-        <a href="#" className="hover:decoration-pink-400 font-bold underline">
-          How we work
+        <a href="#" className="hover:decoration-pink-400 underline">
+          My quotes
         </a>
-        <a href="#" className="hover:decoration-pink-400 font-bold underline">
-          How we rock
+        <a href="#" className="hover:decoration-pink-400 underline">
+          View on opensea
         </a>
         <button
           onClick={(e) => onConnectClick(e)}
