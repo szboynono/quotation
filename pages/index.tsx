@@ -1,21 +1,21 @@
 import type { NextPage } from "next";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
-import { FaQuoteLeft } from 'react-icons/fa';
+import { FaQuoteLeft } from "react-icons/fa";
 
 const Home: NextPage = () => {
   const { currentAccount, metaMaskInstalled } = useContext(AppContext);
   return (
-    <div className="w-[70%] mx-auto text-center mt-[68px]">
-      <FaQuoteLeft className="mx-auto mb-10" size={48} />
-      <h2 className="text-7xl">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-        modi alias cum inventore numquam placeat. Ullam nemo facilis ducimus
-        perspiciatis accusamus pariatur eos libero necessitatibus, autem,
-        voluptate corrupti, dolorem dolore?
-      </h2>
-      <br />
-      <p className="text-3xl text-right">- Tony Liu</p>
+    <div className="h-[75vh] flex items-center">
+      <div className="mx-auto text-center max-w-6xl">
+        <FaQuoteLeft className="mx-auto mb-10" size={48} />
+        <h2 className="md:text-6xl text-5xl font-manrope">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
+          modi alias ccar
+        </h2>
+        <p className="text-3xl text-center font-manrope mt-12">- Tony Liu</p>
+        
+      </div>
     </div>
   );
 };

@@ -30,7 +30,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className="flex justify-between p-10">
+    <div className="flex justify-between py-10 px-10">
       <div>
         <h1 className="text-3xl">Quotation</h1>
       </div>
