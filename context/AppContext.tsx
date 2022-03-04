@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
+
 export const AppContext = React.createContext({
   currentAccount: "",
   metaMaskInstalled: false,
