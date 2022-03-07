@@ -1,8 +1,7 @@
 import { ThirdwebSDK } from "@3rdweb/sdk";
 import { ethers } from "ethers";
 import { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs";
-const privateKey = fs.readFileSync(".secret").toString();
+
 
 export default function mint(
   req: NextApiRequest,
@@ -13,8 +12,9 @@ export default function mint(
   // setup a wallet using private key for the SDK.
   // the wallet must have MINTER role to mint the NFT.
   // you can assign MINTER role to the wallet through the NFT collection dashboard.
+  const privateKey = process.env.PRIVATE_KEY;
   const wallet = new ethers.Wallet(
-    privateKey,
+    privateKey || '',
     ethers.getDefaultProvider(rpcUrl)
   );
 
