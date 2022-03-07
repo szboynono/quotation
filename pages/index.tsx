@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useCallback, useContext, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { FaQuoteLeft } from "react-icons/fa";
 import domtoimage from "dom-to-image";
@@ -21,8 +21,20 @@ const Home: NextPage = () => {
     touched: false,
   });
   const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
-
+  const { currentAccount } = useContext(AppContext);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!fileUrl) return;
+    (async () => await fetch("/api/mint", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ currentAccount, fileUrl }),
+    }))();
+  }, [fileUrl])
+  
 
   const onQuoteChange = (e: any) => {
     setQuote((state) => ({
@@ -52,7 +64,7 @@ const Home: NextPage = () => {
       if (!!quote.error || !!name.error) return;
 
       try {
-        const dataUrl = await domtoimage.toPng(ref.current, {
+        const dataUrl = await domtoimage.toSvg(ref.current, {
           width: 800,
           height: 600,
         });
@@ -61,13 +73,13 @@ const Home: NextPage = () => {
 
         const fetchedImage = await fetch(img.src);
         const fetchedImageBlob = await fetchedImage.blob();
-        const file = new File([fetchedImageBlob], "dot.png", fetchedImageBlob);
+        const file = new File([fetchedImageBlob], "dot.svg", fetchedImageBlob);
 
         const added = await client.add(file, {
           progress: (prog) => console.log(`received: ${prog}`),
         });
-        // const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-        // setFileUrl(url);
+        const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+        setFileUrl(url);
       } catch (error) {
         console.error("oops, something went wrong!", error);
       }
@@ -142,6 +154,7 @@ const Home: NextPage = () => {
           Mint
         </button>
       </form>
+      <img src={fileUrl} alt="" />
     </>
   );
 };
