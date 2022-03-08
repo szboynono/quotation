@@ -4,6 +4,11 @@ import { AppContext } from "../context/AppContext";
 import { FaQuoteLeft } from "react-icons/fa";
 import domtoimage from "dom-to-image";
 import { create } from "ipfs-http-client";
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+import MintQuote from "../artifacts/contracts/MintQuote.sol/MintQuote.json";
+import {mintQuoteAddress} from '../config';
+
 
 const charLimit = 365;
 
@@ -26,13 +31,27 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (!fileUrl) return;
-    (async () => await fetch("/api/mint", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ currentAccount, fileUrl }),
-    }))();
+    const data = JSON.stringify({
+      name: 'Quotation',
+      description: 'One and only quote.',
+      image: fileUrl,
+    });
+
+    (async () => {
+      const added = await client.add(data);
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+
+      let contract = new ethers.Contract(mintQuoteAddress, MintQuote.abi, signer);
+
+      let transaction = await contract.createToken(url);
+      let tx = await transaction.wait();
+      console.log(tx);
+    })();
   }, [fileUrl])
   
 
@@ -90,7 +109,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center">
-        <div ref={ref} className="w-fit flex items-center justify-center">
+        <div ref={ref} className="w-fit flex items-center justify-center bg-white">
           <div className="flex flex-col justify-center items-center mx-auto text-center w-[780px] h-[580px] p-10">
             <FaQuoteLeft className="mx-auto mb-10 shrink-0" size={48} />
             <div className="overflow-hidden max-h-[380px] p-2">
