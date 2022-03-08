@@ -6,7 +6,7 @@ import domtoimage from "dom-to-image";
 import { create } from "ipfs-http-client";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
-import MintQuote from "../artifacts/contracts/MintQuote.sol/MintQuote.json";
+import MintQuote from "./MintQuote.json";
 import { mintQuoteAddress } from "../config";
 import Loader from "../components/Loader";
 import Banner from "../components/Banner";
