@@ -5,6 +5,8 @@ import { ethers } from "ethers";
 export const AppContext = React.createContext({
   currentAccount: "",
   metaMaskInstalled: false,
+  currentNetwork: '',
+  isChainSupported: true,
   connectToMetaMask: () => {},
 });
 
@@ -14,6 +16,12 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentAccount, setCurrentAccount] = useState("");
   const [metaMaskInstalled, setMetaMaskInstalled] = useState(false);
   const [provider, setProvider] = useState<any>();
+  const [currentNetwork, setCurrentNetwork] = useState<string>('');
+  const [isChainSupported, setIsChainSupported] = useState(true);
+
+  useEffect(() => {
+    setIsChainSupported(['0x4', '0x1'].includes(currentNetwork));
+  }, [currentNetwork])
 
   useEffect(() => {
     setMetaMaskInstalled(typeof (window as any).ethereum !== "undefined");
@@ -27,6 +35,16 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [metaMaskInstalled]);
 
   useEffect(() => {
+    (async () => {
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      setCurrentNetwork(chainId);
+    })()
+    window.ethereum.on('chainChanged', (chainId: string) => {
+      setCurrentNetwork(chainId);
+    });
+  }, []);
+
+  useEffect(() => {
     if (!!provider) {
       checkIsConnected();
       (window as any).ethereum.on('accountsChanged', (accounts: string[]) => {
@@ -36,7 +54,6 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [provider]);
 
   
-
   const checkIsConnected = async () => {
     try {
       const addresses = await provider.send("eth_accounts", []);
@@ -60,7 +77,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AppContext.Provider
-      value={{ currentAccount, metaMaskInstalled, connectToMetaMask }}
+      value={{ currentAccount, metaMaskInstalled, connectToMetaMask, currentNetwork, isChainSupported }}
     >
       {children}
     </AppContext.Provider>
