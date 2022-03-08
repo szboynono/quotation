@@ -83,7 +83,7 @@ const Home: NextPage = () => {
       if (!!quote.error || !!name.error) return;
 
       try {
-        const dataUrl = await domtoimage.toSvg(ref.current, {
+        const dataUrl = await domtoimage.toPng(ref.current, {
           width: 800,
           height: 600,
         });
@@ -92,7 +92,7 @@ const Home: NextPage = () => {
 
         const fetchedImage = await fetch(img.src);
         const fetchedImageBlob = await fetchedImage.blob();
-        const file = new File([fetchedImageBlob], "dot.svg", fetchedImageBlob);
+        const file = new File([fetchedImageBlob], "quote.png", fetchedImageBlob);
 
         const added = await client.add(file, {
           progress: (prog) => console.log(`received: ${prog}`),
