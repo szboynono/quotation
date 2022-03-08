@@ -34,10 +34,7 @@ const Navigation = () => {
       <div>
         <h1 className="text-3xl">Quotation</h1>
       </div>
-      <div className="flex justify-between items-center w-[400px]">
-        <a href="#" className="hover:decoration-pink-400 underline">
-          My quotes
-        </a>
+      <div className="flex justify-between items-center w-[300px]">
         <a href="#" className="hover:decoration-pink-400 underline">
           View on opensea
         </a>

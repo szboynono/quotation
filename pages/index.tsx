@@ -55,7 +55,6 @@ const Home: NextPage = () => {
         const connection = await web3Modal.connect();
         const provider = new ethers.providers.Web3Provider(connection);
         const signer = provider.getSigner();
-
         let contract = new ethers.Contract(
           mintQuoteAddress,
           MintQuote.abi,
@@ -66,6 +65,7 @@ const Home: NextPage = () => {
         let tx = await transaction.wait();
         setLoading(false);
       } catch (error) {
+        setFileUrl('');
         setLoading(false);
       }
     })();

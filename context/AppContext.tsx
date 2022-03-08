@@ -20,6 +20,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isChainSupported, setIsChainSupported] = useState(true);
 
   useEffect(() => {
+    if (!currentNetwork) return;
     setIsChainSupported(['0x4', '0x1'].includes(currentNetwork));
   }, [currentNetwork])
 
