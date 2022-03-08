@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { checkIfQuoteExists } from "../firebase";
 
 
 export const AppContext = React.createContext({

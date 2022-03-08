@@ -11,6 +11,8 @@ import { mintQuoteAddress } from "../config";
 import Loader from "../components/Loader";
 import Banner from "../components/Banner";
 import { useRouter } from "next/router";
+import { addQuote, checkIfQuoteExists } from "../firebase";
+import { getDocs } from "firebase/firestore";
 
 const charLimit = 365;
 
@@ -30,16 +32,29 @@ const Home: NextPage = () => {
   });
   const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
+  const [quoteExists, setQuoteExists] = useState(false);
   const {
     currentAccount,
     connectToMetaMask,
     currentNetwork,
     isChainSupported,
-    setId
+    setId,
+    id
   } = useContext(AppContext);
 
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!id) return;
+    (async () => {
+      try {
+        await addQuote(id, quote.value, name.value);
+      } catch (error) {
+        console.log(error);
+      }
+    })()
+  }, [id]);
 
   useEffect(() => {
     if (!fileUrl) return;
@@ -106,6 +121,19 @@ const Home: NextPage = () => {
       }
       if (!quote.touched) return;
       if (!!quote.error || !!name.error) return;
+
+      try {
+        const snapshot = await checkIfQuoteExists(quote.value);
+        if (snapshot.size > 0) {
+          setQuoteExists(true);
+          return;
+        }
+        setQuoteExists(false);
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+      
 
       try {
         const dataUrl = await domtoimage.toPng(ref.current, {
@@ -193,6 +221,11 @@ const Home: NextPage = () => {
           {quote.error && (
             <p className="text-red-500 text-xs italic">
               Please enter the quote.
+            </p>
+          )}
+          {quoteExists && (
+            <p className="text-red-500 text-xs italic">
+              Quote existed, please enter a new one.
             </p>
           )}
 
