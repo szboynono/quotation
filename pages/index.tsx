@@ -46,17 +46,6 @@ const Home: NextPage = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!id) return;
-    (async () => {
-      try {
-        await addQuote(id, quote.value, name.value);
-      } catch (error) {
-        console.log(error);
-      }
-    })()
-  }, [id]);
-
-  useEffect(() => {
     if (!fileUrl) return;
     setLoading(true);
     const data = JSON.stringify({
@@ -86,6 +75,7 @@ const Home: NextPage = () => {
         let value = event.args[2];
         let tokenId = value.toNumber();
         setId(tokenId);
+        await addQuote(tokenId, quote.value, name.value);
         setLoading(false);
         router.push('/created');
       } catch (error) {
