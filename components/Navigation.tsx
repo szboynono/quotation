@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 
 const Navigation = () => {
-  const { connectToMetaMask, currentAccount, metaMaskInstalled } =
+  const { connectToMetaMask, currentAccount, metaMaskInstalled, currentNetwork } =
     useContext(AppContext);
   const [buttonContent, setButtonContent] = useState("Connect wallet");
 
@@ -42,7 +42,7 @@ const Navigation = () => {
         <h1 className="text-3xl cursor-pointer hover:text-pink-400 " onClick={onHeaderClick}>Quotation</h1>
       </div>
       <div className="flex justify-between items-center w-[380px]">
-        <a href="https://testnets.opensea.io/collection/quotation-v3" className="hover:decoration-pink-400 underline">
+        <a href={`https://${currentNetwork === '0x4' ? 'testnets.' : ''}opensea.io/collection/quotation-v3`} className="hover:decoration-pink-400 underline">
           View collection on opensea
         </a>
         <button
