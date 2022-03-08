@@ -7,6 +7,8 @@ export const AppContext = React.createContext({
   metaMaskInstalled: false,
   currentNetwork: '',
   isChainSupported: true,
+  id: '',
+  setId: (id: string) => {},
   connectToMetaMask: () => {},
 });
 
@@ -18,6 +20,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [provider, setProvider] = useState<any>();
   const [currentNetwork, setCurrentNetwork] = useState<string>('');
   const [isChainSupported, setIsChainSupported] = useState(true);
+  const [id, setId] = useState('');
 
   useEffect(() => {
     if (!currentNetwork) return;
@@ -78,7 +81,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AppContext.Provider
-      value={{ currentAccount, metaMaskInstalled, connectToMetaMask, currentNetwork, isChainSupported }}
+      value={{ currentAccount, metaMaskInstalled, connectToMetaMask, currentNetwork, isChainSupported, id, setId }}
     >
       {children}
     </AppContext.Provider>

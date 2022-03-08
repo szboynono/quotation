@@ -10,6 +10,7 @@ import MintQuote from "../artifacts/contracts/MintQuote.sol/MintQuote.json";
 import { mintQuoteAddress } from "../config";
 import Loader from "../components/Loader";
 import Banner from "../components/Banner";
+import { useRouter } from "next/router";
 
 const charLimit = 365;
 
@@ -34,7 +35,10 @@ const Home: NextPage = () => {
     connectToMetaMask,
     currentNetwork,
     isChainSupported,
+    setId
   } = useContext(AppContext);
+
+  const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,7 +67,12 @@ const Home: NextPage = () => {
 
         let transaction = await contract.createToken(url);
         let tx = await transaction.wait();
+        let event = tx.events[0];
+        let value = event.args[2];
+        let tokenId = value.toNumber();
+        setId(tokenId);
         setLoading(false);
+        router.push('/created');
       } catch (error) {
         setFileUrl('');
         setLoading(false);
@@ -212,9 +221,9 @@ const Home: NextPage = () => {
           </button>
         </form>
       ) : (
-        <div className="flex justify-center text-2xl">
+        <div className="flex justify-center text-2xl mt-20">
           <a
-            className="underline cursor-pointer hover:decoration-pink-400 mt-60"
+            className="underline cursor-pointer hover:decoration-pink-400"
             onClick={connectToMetaMask}
             hidden={!isChainSupported}
           >
