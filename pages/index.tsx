@@ -170,6 +170,34 @@ const Home: NextPage = () => {
           ref={ref}
           className="w-fit flex items-center justify-center bg-white"
         >
+          <div className="flex flex-col justify-center items-center mx-auto text-center w-full lg:w-[780px] h-[580px] p-10">
+            <FaQuoteLeft className="mx-auto mb-10 shrink-0" size={48} />
+            <div className="overflow-hidden max-h-[380px] p-2">
+              <h2
+                className={`${
+                  quote.value.length < 85 ? "text-5xl" : "text-3xl"
+                } font-manrope`}
+                style={{ wordBreak: "break-word" }}
+              >
+                {quote.value}
+              </h2>
+            </div>
+            <p
+              className={`${
+                quote.value.length < 85 ? "text-3xl" : "text-xl"
+              } text-center font-manrope mt-12`}
+            >
+              - {name.value}
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* for screenshot */}
+      <div className="hidden">
+        <div
+          ref={ref}
+          className="w-fit flex items-center justify-center bg-white"
+        >
           <div className="flex flex-col justify-center items-center mx-auto text-center w-[780px] h-[580px] p-10">
             <FaQuoteLeft className="mx-auto mb-10 shrink-0" size={48} />
             <div className="overflow-hidden max-h-[380px] p-2">
@@ -204,7 +232,7 @@ const Home: NextPage = () => {
             id="quote"
             name="quote"
             value={quote.value}
-            className="border w-[500px] h-[180px] shadow appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border w-full max-w-[500px] h-[180px] shadow appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             maxLength={charLimit}
             onChange={(e) => onQuoteChange(e)}
           />
@@ -226,7 +254,7 @@ const Home: NextPage = () => {
             id="name"
             name="name"
             value={name.value}
-            className="border w-[500px] shadow appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border w-full max-w-[500px] shadow appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
             onChange={(e) => onNameChange(e)}
           />
@@ -238,7 +266,7 @@ const Home: NextPage = () => {
 
           <button
             onClick={(e) => handleSubmit(e)}
-            className="text-xl border px-4 rounded-full font-bold bg-pink-400 text-white h-full hover:bg-pink-600"
+            className="mb-10 text-xl border px-4 rounded-full font-bold bg-pink-400 text-white h-full hover:bg-pink-600"
           >
             Mint
           </button>

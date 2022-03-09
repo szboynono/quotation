@@ -2,38 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { debounce } from "lodash";
 import Confetti from "react-confetti";
 import { AppContext } from "../context/AppContext";
+import useWindowSize from "../hooks/useWindowSize";
 
 function Created() {
-  const [windowSize, setWindowSize] = useState({
-    height: 0,
-    width: 0,
-  });
-
   const { id, currentNetwork } = useContext(AppContext);
 
-  useEffect(() => {
-    const debouncedSetWindowSize = debounce(
-      () =>
-        setWindowSize({
-          height: window.innerHeight,
-          width: window.innerWidth,
-        }),
-      800
-    );
-    setWindowSize({
-      height: window.innerHeight,
-      width: window.innerWidth,
-    });
-    window.addEventListener("resize", () => {
-      debouncedSetWindowSize();
-    });
-  }, []);
+  const { width, height } = useWindowSize();
 
   return (
     <div className="h-[80vh] flex items-center justify-center flex-col">
       <Confetti
-        width={windowSize.width}
-        height={windowSize.height}
+        width={width}
+        height={height}
         recycle={false}
       />
       <div className="flex flex-col items-center">

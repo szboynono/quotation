@@ -5,7 +5,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
       <Navigation></Navigation>
-      <div className="px-10">{children}</div>
+      <div className="md:px-10 px-4">{children}</div>
     </>
   );
 };
