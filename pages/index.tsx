@@ -46,6 +46,7 @@ const Home: NextPage = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!currentAccount) return;
     (async () => {
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
@@ -55,7 +56,7 @@ const Home: NextPage = () => {
       let hex = await contract.getMintingFee();
       setFee(ethers.utils.formatEther(hex.toNumber()));
     })();
-  }, []);
+  }, [currentAccount]);
 
   useEffect(() => {
     if (!fileUrl) return;
