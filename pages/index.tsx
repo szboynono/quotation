@@ -12,7 +12,6 @@ import Loader from "../components/Loader";
 import Banner from "../components/Banner";
 import { useRouter } from "next/router";
 import { addQuote, checkIfQuoteExists } from "../firebase";
-import { getDocs } from "firebase/firestore";
 
 const charLimit = 365;
 
@@ -33,6 +32,7 @@ const Home: NextPage = () => {
   const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [quoteExists, setQuoteExists] = useState(false);
+  const [fee, setFee] = useState('');
   const {
     currentAccount,
     connectToMetaMask,
@@ -44,6 +44,18 @@ const Home: NextPage = () => {
 
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    (async () => {
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+      let contract = new ethers.Contract(mintQuoteAddress, MintQuote.abi, signer);
+      let hex = await contract.getMintingFee();
+      setFee(ethers.utils.formatEther(hex.toNumber()));
+    })();
+  }, []);
 
   useEffect(() => {
     if (!fileUrl) return;
@@ -263,7 +275,7 @@ const Home: NextPage = () => {
               Please enter the name.
             </p>
           )}
-
+          <p>Minting fee is {fee} ether</p>
           <button
             onClick={(e) => handleSubmit(e)}
             className="mb-10 text-xl border px-4 rounded-full font-bold bg-pink-400 text-white h-full hover:bg-pink-600"
