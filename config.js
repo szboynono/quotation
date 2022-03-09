@@ -1,1 +1,1 @@
-export const mintQuoteAddress = "0xCBA687550c4cb2B737f69826EB2b158697aea754";
+export const mintQuoteAddress = "0x308B504C07D434D0EBc6A9bcd346ecd6322e8F52";

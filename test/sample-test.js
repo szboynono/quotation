@@ -7,8 +7,8 @@ describe("Minting the token and returning it", function () {
     const FactoryContract = await ethers.getContractFactory("MintQuote"); // Getting the contract
 
     const factoryContract = await FactoryContract.deploy(); //Deploying the Contract
-
-    const transaction = await factoryContract.createToken(metadata); // Minting the token
+  
+    const transaction = await factoryContract.createToken(metadata, { value: ethers.utils.parseUnits("0.002", "ether") }); // Minting the token
     const tx = await transaction.wait() // Waiting for the token to be minted
 
     const event = tx.events[0];

@@ -15,6 +15,12 @@ function useWindowSize() {
     window.addEventListener("resize", () => {
       debouncedSetWindowSize();
     });
+
+    return () => {
+      window.removeEventListener("resize", () => {
+        debouncedSetWindowSize();
+      });
+    };
   }, []);
 
   return { width, height };

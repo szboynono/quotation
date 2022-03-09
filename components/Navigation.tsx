@@ -58,7 +58,7 @@ const Navigation = () => {
         <a
           href={`https://${
             currentNetwork === "0x4" ? "testnets." : ""
-          }opensea.io/collection/quotation-v3`}
+          }opensea.io/collection/quotations-v2`}
           className="hover:decoration-pink-400 underline mr-4 m"
         >
           {width > 500 ? (

@@ -68,8 +68,8 @@ const Home: NextPage = () => {
           MintQuote.abi,
           signer
         );
-
-        let transaction = await contract.createToken(url);
+        const fee = ethers.utils.parseUnits("0.002", "ether");
+        let transaction = await contract.createToken(url, { value: fee });
         let tx = await transaction.wait();
         let event = tx.events[0];
         let value = event.args[2];

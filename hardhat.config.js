@@ -19,6 +19,10 @@ const { PRIVATE_KEY } = process.env;
       url: `https://rinkeby.infura.io/v3/${projectId}`,
       accounts: [PRIVATE_KEY]
     },
+    mainnet: {
+      url: `https://mainnet.infura.io/v3/${projectId}`,
+      accounts: [PRIVATE_KEY]
+    }
   },
   solidity: "0.8.4",
 };
