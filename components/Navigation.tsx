@@ -51,7 +51,7 @@ const Navigation = () => {
           className="text-3xl cursor-pointer hover:text-pink-400 "
           onClick={onHeaderClick}
         >
-          Quotation
+          Quotations
         </h1>
       </div>
       <div className="flex flex-row justify-between items-center">

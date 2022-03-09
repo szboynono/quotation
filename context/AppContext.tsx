@@ -40,6 +40,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [metaMaskInstalled]);
 
   useEffect(() => {
+    if (!window.ethereum) return;
     (async () => {
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       setCurrentNetwork(chainId);
